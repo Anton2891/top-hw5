@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import static com.example.tophw5.config.DBConnection.DATABASE_URL;
 import static com.example.tophw5.config.DBConnection.connection;
 
-@Component
+//@Component
 public class DBCreate {
 
     @PostConstruct
