@@ -1,5 +1,6 @@
 package com.example.tophw5.entity;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Institution {
@@ -7,7 +8,33 @@ public class Institution {
     private String name;
     private String address;
     private String description;
+    private String telephoneNumber;
+    private String email;
+    private LocalDate foundationDate;
 
+    public LocalDate getFoundationDate() {
+        return foundationDate;
+    }
+
+    public void setFoundationDate(LocalDate foundationDate) {
+        this.foundationDate = foundationDate;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Integer getId() {
         return id;
@@ -46,12 +73,12 @@ public class Institution {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Institution that = (Institution) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(description, that.description);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(description, that.description) && Objects.equals(telephoneNumber, that.telephoneNumber) && Objects.equals(email, that.email) && Objects.equals(foundationDate, that.foundationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, description);
+        return Objects.hash(id, name, address, description, telephoneNumber, email, foundationDate);
     }
 
     @Override
@@ -61,6 +88,9 @@ public class Institution {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
+                ", telephoneNumber='" + telephoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", foundationDate=" + foundationDate +
                 '}';
     }
 }

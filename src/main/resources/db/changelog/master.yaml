@@ -23,3 +23,15 @@ databaseChangeLog:
         changes:
           - sqlFile:
               path: \db\changelog\change_sets\V_004_update_review.sql
+    - changeSet:
+        id: 5
+        author: anton.stolyarov
+        changes:
+          - sqlFile:
+              path: \db\changelog\change_sets\V_005_add_phone_number_email_to_institution.sql
+    - changeSet:
+        id: 6
+        author: anton.stolyarov
+        changes:
+          - sqlFile:
+              path: \db\changelog\change_sets\V_006_add_foundation_date.sql

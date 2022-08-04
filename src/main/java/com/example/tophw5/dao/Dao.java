@@ -9,8 +9,8 @@ public interface Dao {
 
     List<Institution> getAll();
     Institution getDescriptionInstitutionById(Integer id);
-    Review getReviewInstitutionById(Integer id);
-    Review getRatingInstitutionById(Integer id);
+    List<Review> getReviewInstitutionById(Integer id);
+    List<Review> getRatingInstitutionById(Integer id);
     void addInstitution(String name, String address, String description);
     void addReview(Integer institutionId, Integer rating, String review);
     void refactorInstitutionById(Integer id, String description);

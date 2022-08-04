@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +17,17 @@ import static com.example.tophw5.config.DBConnection.connection;
 @Repository
 public class DaoImpl implements Dao {
     private static final Logger log = LoggerFactory.getLogger(DaoImpl.class);
-    private final String GET_ALL = "SELECT * FROM institutions";
-    private final String GET_DESCRIPTION_INSTITUTION_BY_ID = "SELECT * FROM institutions WHERE id= ?";
+    private final String GET_ALL = "SELECT * FROM institution";
+    private final String GET_DESCRIPTION_INSTITUTION_BY_ID = "SELECT * FROM institution WHERE id= ?";
     private final String GET_REVIEW_INSTITUTION_BY_ID =
-            "SELECT i.`name`, r.review FROM institutions AS i, reviews AS r WHERE i.id = ? AND r.institution_id =?";
+            "SELECT i.name, r.review FROM institution AS i, review AS r WHERE i.id = ? AND r.institution_id =?";
     private final String GET_RATING_INSTITUTION_BY_ID =
-            "SELECT i.`name`, r.rating FROM institutions AS i, reviews AS r WHERE i.id = ? AND r.institution_id =?";
-    private final String ADD_REVIEW = "INSERT INTO reviews (institution_id, rating, review) VALUES (?, ?, ?)";
+            "SELECT i.name, r.rating FROM institution AS i, review AS r WHERE i.id = ? AND r.institution_id =?";
+    private final String ADD_REVIEW = "INSERT INTO review (institution_id, rating, review) VALUES (?, ?, ?)";
     private final String ADD_INSTITUTION =
-            "INSERT INTO institutions (`name`, address, description) VALUES (?, ?, ?)";
-    private final String REFACTOR_INSTITUTION_BY_ID = "UPDATE institutions SET description  = ? WHERE id = ?";
-    private final String REFACTOR_REVIEW_BY_ID = "UPDATE reviews SET review = ? WHERE institution_id = ?";
+            "INSERT INTO institution (name, address, description) VALUES (?, ?, ?)";
+    private final String REFACTOR_INSTITUTION_BY_ID = "UPDATE institution SET description  = ? WHERE id = ?";
+    private final String REFACTOR_REVIEW_BY_ID = "UPDATE review SET review = ? WHERE institution_id = ?";
 
     @Override
     public List<Institution> getAll() {
@@ -69,41 +71,45 @@ public class DaoImpl implements Dao {
     }
 
     @Override
-    public Review getReviewInstitutionById(Integer id) {
-        Review review = new Review();
+    public List<Review> getReviewInstitutionById(Integer id) {
+        List<Review> reviews = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_REVIEW_INSTITUTION_BY_ID);
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Review review = new Review();
                 review.setInstitutionName(resultSet.getString(1));
                 review.setReview(resultSet.getString(2));
+                reviews.add(review);
             }
             preparedStatement.close();
         } catch (SQLException e) {
             log.debug("Incorrect preparedStatement '{}' or InstitutionId '{}'", GET_REVIEW_INSTITUTION_BY_ID, id);
         }
-        return review;
+        return reviews;
     }
 
     @Override
-    public Review getRatingInstitutionById(Integer id) {
-        Review review = new Review();
+    public List<Review> getRatingInstitutionById(Integer id) {
+        List<Review> reviews = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_RATING_INSTITUTION_BY_ID);
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Review review = new Review();
                 review.setInstitutionName(resultSet.getString(1));
                 review.setRating(resultSet.getInt(2));
+                reviews.add(review);
             }
             preparedStatement.close();
         } catch (SQLException e) {
             log.debug("Incorrect preparedStatement '{}' or InstitutionId '{}'", GET_RATING_INSTITUTION_BY_ID, id);
         }
-        return review;
+        return reviews;
     }
 
     @Override

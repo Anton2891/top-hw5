@@ -4,24 +4,36 @@ import com.example.tophw5.dao.DaoImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
-
+@Component
 public class DBConnection {
 
-    public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/institution_db";
-    public static Connection connection = null;
+//    public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/institution_db";
+    public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/postgres";
+    public static Connection connection;
+
+//    static {
+//        try {
+//            connection = DriverManager.getConnection(DATABASE_URL, getConnection());
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     private static final Logger log = LoggerFactory.getLogger(DBConnection.class);
 
     static {
         try {
-            connection = DriverManager.getConnection(DATABASE_URL, getConnection());
+             connection = DriverManager.getConnection(DATABASE_URL, getConnection());
         } catch (SQLException e) {
             log.debug("Incorrect database URL '{}' or connection props '{}'", DATABASE_URL, getConnection());
         }
@@ -29,7 +41,7 @@ public class DBConnection {
 
     public static Properties getConnection(){
         Properties properties = new Properties();
-        properties.setProperty("user", "root");
+        properties.setProperty("user", "postgres");
         properties.setProperty("password", "root");
         return properties;
     }

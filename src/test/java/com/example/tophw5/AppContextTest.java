@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
         H2TestProfileJPAConfig.class
 })
 @ActiveProfiles("test")
-class AppContextTest {
+public class AppContextTest {
 
     @Test
     void contextLoads() {
